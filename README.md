@@ -1,5 +1,8 @@
 # aws-reinvent-2022
 
+![re:Invent](images/reinvent.png)
+_Nov. 28 - Dec. 2, 2022 | Las Vegas, NV_ 
+
 ## Description
 
 This terraform module is the basis for the demonstration infrastructure used by Aviatrix at 2022 AWS re:Invent. The module builds a full-mesh Airspace network across 4 CSPs with 3 attached application (dev, qa, prod) networks in each cloud (save for Azure where application segmentation is achieved with an Intra-VNet firewall, orchestrated by Aviatrix).

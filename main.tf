@@ -12,6 +12,17 @@ locals {
       firenet_inspection_enabled                   = true
       firenet_keep_alive_via_lan_interface_enabled = true
     },
+    aws_east_2 = {
+      transit_account        = var.aws_account
+      transit_cloud          = "aws"
+      transit_cidr           = "10.5.0.0/23"
+      transit_region_name    = "us-east-2"
+      transit_asn            = 65105
+      transit_ha_gw          = false
+      firenet                = true
+      firenet_firewall_image = "Aviatrix FQDN Egress Filtering"
+      firenet_single_ip_snat = true
+    },
     azure_central = {
       transit_account     = var.azure_account
       transit_cloud       = "azure"
