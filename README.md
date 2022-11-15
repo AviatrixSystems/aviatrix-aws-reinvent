@@ -1,7 +1,6 @@
 # aws-reinvent-2022
 
 ![re:Invent](images/reinvent.png)
-_Nov. 28 - Dec. 2, 2022 | Las Vegas, NV_ 
 
 ## Description
 
