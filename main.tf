@@ -23,11 +23,11 @@ locals {
       firenet_firewall_image = "Aviatrix FQDN Egress Filtering"
       firenet_single_ip_snat = true
     },
-    azure_central = {
+    azure_germany = {
       transit_account     = var.azure_account
       transit_cloud       = "azure"
       transit_cidr        = "10.2.0.0/23"
-      transit_region_name = "Central US"
+      transit_region_name = "Germany West Central"
       transit_asn         = 65102
       transit_ha_gw       = false
     },
@@ -73,7 +73,7 @@ module "spoke_1" {
 }
 
 module "spoke_2" {
-  for_each   = { for k, v in local.transit_firenet : k => v if k != "azure_central" && k != "aws_east_2" }
+  for_each   = { for k, v in local.transit_firenet : k => v if k != "azure_germany" && k != "aws_east_2" }
   source     = "terraform-aviatrix-modules/mc-spoke/aviatrix"
   version    = "1.4.1"
   cloud      = each.value.transit_cloud
@@ -87,7 +87,7 @@ module "spoke_2" {
 }
 
 module "spoke_3" {
-  for_each   = { for k, v in local.transit_firenet : k => v if k != "azure_central" && k != "aws_east_2" }
+  for_each   = { for k, v in local.transit_firenet : k => v if k != "azure_germany" && k != "aws_east_2" }
   source     = "terraform-aviatrix-modules/mc-spoke/aviatrix"
   version    = "1.4.1"
   cloud      = each.value.transit_cloud

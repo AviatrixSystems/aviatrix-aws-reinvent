@@ -15,6 +15,9 @@ This module requires a deployed Aviatrix Controller with accounts onboarded for 
 ![Toplogy](images/avx.png)  
 _Fig. Network Topology_  
 
+![Map](images/map.png)  
+_Fig. Network Map_  
+
 ## Usage Example
 
 ```terraform
