@@ -59,7 +59,7 @@ module "transit" {
 
 # https://registry.terraform.io/modules/terraform-aviatrix-modules/mc-spoke/aviatrix/latest
 module "spoke_1" {
-  for_each   = { for k, v in local.transit_firenet : k => v if k != "aws_east_2" }
+  for_each   = local.transit_firenet
   source     = "terraform-aviatrix-modules/mc-spoke/aviatrix"
   version    = "1.4.1"
   cloud      = each.value.transit_cloud
@@ -73,7 +73,7 @@ module "spoke_1" {
 }
 
 module "spoke_2" {
-  for_each   = { for k, v in local.transit_firenet : k => v if k != "azure_germany" && k != "aws_east_2" }
+  for_each   = { for k, v in local.transit_firenet : k => v if k != "azure_germany" }
   source     = "terraform-aviatrix-modules/mc-spoke/aviatrix"
   version    = "1.4.1"
   cloud      = each.value.transit_cloud
@@ -87,7 +87,7 @@ module "spoke_2" {
 }
 
 module "spoke_3" {
-  for_each   = { for k, v in local.transit_firenet : k => v if k != "azure_germany" && k != "aws_east_2" }
+  for_each   = { for k, v in local.transit_firenet : k => v if k != "azure_germany" }
   source     = "terraform-aviatrix-modules/mc-spoke/aviatrix"
   version    = "1.4.1"
   cloud      = each.value.transit_cloud
