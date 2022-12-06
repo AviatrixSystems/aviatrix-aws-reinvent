@@ -8,7 +8,7 @@ This terraform module is the basis for the demonstration infrastructure used by 
 
 ## Prerequisites
 
-This module requires a deployed Aviatrix Controller with accounts onboarded for AWS, Azure, GCP, and OCI in any cloud.
+This module requires a deployed Aviatrix Controller with accounts onboarded for AWS, Azure, GCP, and OCI.
 
 ## Infrastructure
 
