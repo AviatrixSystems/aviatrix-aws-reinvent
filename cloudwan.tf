@@ -115,6 +115,7 @@ resource "aws_networkmanager_vpc_attachment" "avx_transit" {
     env  = "avx"
     Name = module.backbone.transit["aws_east"].transit_gateway.gw_name
   }
+  depends_on = [module.cloudwan]
 }
 
 resource "aws_networkmanager_vpc_attachment" "dev" {
@@ -126,6 +127,7 @@ resource "aws_networkmanager_vpc_attachment" "dev" {
     env        = "dev"
     Name       = module.finance_dev_vpc.name
   }
+  depends_on = [module.cloudwan]
 }
 
 resource "aws_networkmanager_vpc_attachment" "prod" {
@@ -137,6 +139,7 @@ resource "aws_networkmanager_vpc_attachment" "prod" {
     env        = "prod"
     Name       = module.finance_prod_vpc.name
   }
+  depends_on = [module.cloudwan]
 }
 
 resource "aws_networkmanager_connect_attachment" "avx_transit_dev" {
@@ -221,24 +224,27 @@ resource "aviatrix_transit_external_device_conn" "cloudwan_prod" {
   enable_jumbo_frame = false
 }
 
-# Routes 
+# Routes
 resource "aws_route" "avx_transit" {
-  for_each               = toset(module.backbone.transit["aws_east"].vpc.route_tables)
-  route_table_id         = each.value
+  count                  = 3
+  route_table_id         = module.backbone.transit["aws_east"].vpc.route_tables[count.index]
   destination_cidr_block = "10.71.0.0/24"
   core_network_arn       = module.cloudwan.core_network.arn
+  depends_on             = [module.cloudwan, module.backbone]
 }
 
 resource "aws_route" "finance_dev" {
-  for_each               = toset(module.finance_dev_vpc.private_route_table_ids)
-  route_table_id         = each.value
+  count                  = 2
+  route_table_id         = module.finance_dev_vpc.private_route_table_ids[count.index]
   destination_cidr_block = "10.0.0.0/8"
   core_network_arn       = module.cloudwan.core_network.arn
+  depends_on             = [module.cloudwan, module.finance_dev_vpc]
 }
 
 resource "aws_route" "finance_prod" {
-  for_each               = toset(module.finance_prod_vpc.private_route_table_ids)
-  route_table_id         = each.value
+  count                  = 2
+  route_table_id         = module.finance_prod_vpc.private_route_table_ids[count.index]
   destination_cidr_block = "10.0.0.0/8"
   core_network_arn       = module.cloudwan.core_network.arn
+  depends_on             = [module.cloudwan, module.finance_prod_vpc]
 }

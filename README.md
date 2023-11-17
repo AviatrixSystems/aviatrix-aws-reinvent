@@ -27,6 +27,10 @@ module "reinvent" {
   aws_account          = "onboarded aws account name"
   azure_account        = "onboarded azure account name"
   gcp_account          = "onboarded gcp account name"
+  providers = {
+    aws           = aws
+    aws.us-east-2 = aws.us-east-2
+  }
 }
 
 provider "aviatrix" {
@@ -37,6 +41,11 @@ provider "aviatrix" {
 
 provider "aws" {
   region  = "us-east-1"
+}
+
+provider "aws" {
+  alias   = "us-east-2"
+  region  = "us-east-2"
 }
 
 terraform {
