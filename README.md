@@ -1,7 +1,6 @@
 # aviatrix-aws-reinvent
 
-![re:Invent](images/reinvent.png)
-[Aviatrix at re:Invent 2023](https://aviatrix.com/aviatrix-at-aws-reinvent-2023/)
+[![re:Invent](images/reinvent.png)](https://aviatrix.com/aviatrix-at-aws-reinvent-2023/)
 
 ## Description
 
