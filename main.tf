@@ -62,11 +62,11 @@ module "spoke_1" {
   version  = "1.6.4"
 
   cloud          = each.value.transit_cloud
-  name           = each.key == "azure" ? "spoke-${each.value.department}-all" : "spoke-${each.value.department}-dev"
+  name           = each.key == "azure" || each.key == "aws_east_2" ? "spoke-${each.value.department}-all" : "spoke-${each.value.department}-dev"
   cidr           = cidrsubnet("${trimsuffix(each.value.transit_cidr, "23")}16", 8, 2)
   region         = each.value.transit_region_name
   account        = each.value.transit_account
-  subnet_pairs   = each.value.transit_cloud == "azure" ? 3 : null
+  subnet_pairs   = each.value.transit_cloud == "azure" || each.key == "aws_east_2" ? 3 : null
   transit_gw     = module.backbone.transit[each.key].transit_gateway.gw_name
   instance_size  = each.key == "azure" ? "Standard_B2ms" : each.key == "gcp" ? "n1-standard-2" : null
   ha_gw          = false
@@ -75,7 +75,7 @@ module "spoke_1" {
 }
 
 module "spoke_2" {
-  for_each = { for k, v in local.backbone : k => v if k != "azure" }
+  for_each = { for k, v in local.backbone : k => v if k != "azure" && k != "aws_east_2" }
   source   = "terraform-aviatrix-modules/mc-spoke/aviatrix"
   version  = "1.6.4"
 
@@ -92,7 +92,7 @@ module "spoke_2" {
 }
 
 module "spoke_3" {
-  for_each = { for k, v in local.backbone : k => v if k != "azure" }
+  for_each = { for k, v in local.backbone : k => v if k != "azure" && k != "aws_east_2" }
   source   = "terraform-aviatrix-modules/mc-spoke/aviatrix"
   version  = "1.6.4"
 

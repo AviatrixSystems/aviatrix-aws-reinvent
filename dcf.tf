@@ -269,10 +269,12 @@ resource "aviatrix_distributed_firewalling_intra_vpc" "azure" {
     vpc_id       = module.spoke_1["azure"].vpc.vpc_id
     region       = local.backbone.azure.transit_region_name
   }
+  vpcs {
+    account_name = var.aws_account
+    vpc_id       = module.spoke_1["aws_east_2"].vpc.vpc_id
+    region       = local.backbone.aws_east_2.transit_region_name
+  }
   depends_on = [
     aviatrix_distributed_firewalling_config.demo,
-    module.marketing_prod,
-    module.marketing_dev,
-    module.marketing_qa,
   ]
 }
