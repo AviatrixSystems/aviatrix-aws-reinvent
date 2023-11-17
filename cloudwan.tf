@@ -226,11 +226,11 @@ resource "aviatrix_transit_external_device_conn" "cloudwan_prod" {
 
 # Routes
 resource "aws_route" "avx_transit" {
-  count                  = 3
+  count                  = 2
   route_table_id         = module.backbone.transit["aws_east"].vpc.route_tables[count.index]
   destination_cidr_block = "10.71.0.0/24"
   core_network_arn       = module.cloudwan.core_network.arn
-  depends_on             = [module.cloudwan, module.backbone]
+  depends_on             = [aviatrix_transit_external_device_conn.cloudwan_prod]
 }
 
 resource "aws_route" "finance_dev" {
@@ -238,7 +238,7 @@ resource "aws_route" "finance_dev" {
   route_table_id         = module.finance_dev_vpc.private_route_table_ids[count.index]
   destination_cidr_block = "10.0.0.0/8"
   core_network_arn       = module.cloudwan.core_network.arn
-  depends_on             = [module.cloudwan, module.finance_dev_vpc]
+  depends_on             = [aviatrix_transit_external_device_conn.cloudwan_prod]
 }
 
 resource "aws_route" "finance_prod" {
@@ -246,5 +246,5 @@ resource "aws_route" "finance_prod" {
   route_table_id         = module.finance_prod_vpc.private_route_table_ids[count.index]
   destination_cidr_block = "10.0.0.0/8"
   core_network_arn       = module.cloudwan.core_network.arn
-  depends_on             = [module.cloudwan, module.finance_prod_vpc]
+  depends_on             = [aviatrix_transit_external_device_conn.cloudwan_prod]
 }
